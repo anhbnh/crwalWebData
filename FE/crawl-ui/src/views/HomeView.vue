@@ -25,8 +25,8 @@
                     <th width="190px">
                         <div class="text-right">
                             <a @click ="DeleteUrl(link.PageId)"><i class="bi bi-trash"></i>Xóa</a> |
-                            <a @click="$router.push('/ATags/'+ link.PageId)"><i class="bi-eye"></i>Xem dữ liệu</a>
-                            <router-link :to="{ name: 'ATags', params: { id: link.PageId, url: link.Link }}">Navigate to Page2</router-link>
+                            <a @click="$router.push({ name: 'ATags', params: { id: link.PageId, url: link.Link }})"><i class="bi-eye"></i>Xem dữ liệu</a>
+                            <!-- <router-link :to="{ name: 'ATags', params: { id: link.PageId, url: link.Link }}" class="link">Xem dữ liệu</router-link> -->
                         </div>
                     </th>
                 </tr>
@@ -58,6 +58,11 @@ export default {
         },
 
         async SaveUrl(){
+            if (this.NewUrl.trim() == "")
+            {
+                window.alert("Link is not empty!");
+                return;
+            }
             try {
                 const _url = {"PageId": 0, "Link": this.NewUrl}
                 let response = await this.$http.post(
