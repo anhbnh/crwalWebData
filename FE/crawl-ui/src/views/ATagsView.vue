@@ -39,12 +39,9 @@ export default {
         async getData() {
             try {
                 const response = await this.$http.get(
-                    "https://localhost:44341/api/crawl/GetAllATags?id=" + this.Url_Id
+                    "api/crawl/GetAllATags?id=" + this.Url_Id
                 );
-                // JSON responses are automatically parsed.
                  this.ATafg = response.data.Data;
-
-                 console.log(this.ATafg);
             } catch (error) {
                 console.log(error);
             }

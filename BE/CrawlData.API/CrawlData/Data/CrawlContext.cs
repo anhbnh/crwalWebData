@@ -16,11 +16,6 @@ namespace CrawlData.Data
             optionsBuilder.UseSqlServer("Data Source=DESKTOP-TL2BUM7\\SQLEXPRESS;Initial Catalog=CrawlDB;Integrated Security=True");
         }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    base.OnModelCreating(modelBuilder);
-
-        //}
 
     }
 }

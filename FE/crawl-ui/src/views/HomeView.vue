@@ -48,7 +48,7 @@ export default {
         async getData() {
             try {
                 const response = await this.$http.get(
-                    "https://localhost:44341/api/crawl/GetAllUrls"
+                    "api/crawl/GetAllUrls"
                 );
                 // JSON responses are automatically parsed.
                  this.Links = response.data.Data;
@@ -66,7 +66,7 @@ export default {
             try {
                 const _url = {"PageId": 0, "Link": this.NewUrl}
                 let response = await this.$http.post(
-                     "https://localhost:44341/api/crawl/CreateUrl",
+                     "api/crawl/CreateUrl",
                      _url
                 );
                  // JSON responses are automatically parsed.
@@ -83,7 +83,7 @@ export default {
             {
                 try {
                     let response = await this.$http.delete(
-                        "https://localhost:44341/api/crawl/DeleteUrl?UrlId="+ Url_Id
+                        "api/crawl/DeleteUrl?UrlId="+ Url_Id
                     );
                     // JSON responses are automatically parsed.
                 if (response.data.Success == true){
