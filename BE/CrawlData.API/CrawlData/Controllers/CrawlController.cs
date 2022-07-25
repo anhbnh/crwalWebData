@@ -11,20 +11,20 @@ namespace CrawlData.Controllers
     public class CrawlController : ControllerBase
     {
         private readonly ILogger<CrawlController> _logger;
-        private readonly ICrawlService _crwalService;
+        private readonly ICrawlService _crawlService;
 
-        public CrawlController(ILogger<CrawlController> logger, ICrawlService crwalService)
+        public CrawlController(ILogger<CrawlController> logger, ICrawlService crawlService)
         {
             _logger = logger;
-            _crwalService = crwalService;
+            _crawlService = crawlService;
         }
 
         #region URL
         [HttpGet]
         [Route("GetAllUrls")]
-        public ActionResult<BaseResponse<List<PageDTO>>> GetAllUrls() //[FromQuery(Name = "url")] string url
+        public ActionResult<BaseResponse<List<PageDTO>>> GetAllUrls()
         {
-            var result = _crwalService.GetAllUrls();
+            var result = _crawlService.GetAllUrls();
             return Ok(result);
         }
 
@@ -32,7 +32,7 @@ namespace CrawlData.Controllers
         [Route("CreateUrl")]
         public ActionResult<BaseResponse<PageDTO>> CreateUrl(PageDTO newUrl)
         {
-            var result = _crwalService.CreateUrl(newUrl);
+            var result = _crawlService.CreateUrl(newUrl);
             return Ok(result);
         }
 
@@ -40,19 +40,16 @@ namespace CrawlData.Controllers
         [Route("DeleteUrl")]
         public ActionResult<BaseResponse<int>> DeleteUrl([FromQuery(Name = "UrlId")] int UrlId)
         {
-            var result = _crwalService.DeleteUrl(UrlId);
+            var result = _crawlService.DeleteUrl(UrlId);
             return Ok(result);
         }
         #endregion
 
-
-
-        /// <returns>Trả về symbol tìm thấy</returns>
         [HttpGet]
         [Route("GetAllATags")]
-        public ActionResult<BaseResponse<List<ATagDTO>>> GetAllATags([FromQuery(Name = "id")] int Url_Id) //
+        public ActionResult<BaseResponse<List<ATagDTO>>> GetAllATags([FromQuery(Name = "id")] int Url_Id)
         {
-            var result = _crwalService.GetAllATag(Url_Id);
+            var result = _crawlService.GetAllATag(Url_Id);
             return Ok(result);
         }
 

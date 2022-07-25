@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using CefSharp.DevTools.Page;
 using CefSharp;
-using CefSharp.OffScreen;
 using System.Net;
 using HtmlAgilityPack;
 using CrawlData.Services.Interfaces;
@@ -21,7 +18,7 @@ namespace CrawlAData.Services
     {
         private readonly IDbContextFactory<CrawlContext> _contextFactory;
         private readonly IMapper _mapper;
-        
+
         public CrawlService(IDbContextFactory<CrawlContext> contextFactory, IMapper mapper)
         {
             _contextFactory = contextFactory;
@@ -62,14 +59,14 @@ namespace CrawlAData.Services
             {
                 var context = _contextFactory.CreateDbContext();
                 var Url = context.Pages.FirstOrDefault(x => x.PageId == UrlId);
-                if (Url == null) 
+                if (Url == null)
                     return new BaseResponse<int>(false, -1, "This Url is not existed.");
                 else
                 {
                     if (Url.IsGetATag)
                     {
                         var aTags = context.ATags.Where(x => x.PageId == UrlId).ToList();
-                        if (aTags.Count >0)
+                        if (aTags.Count > 0)
                         {
                             context.ATags.RemoveRange(aTags);
                         }
@@ -87,6 +84,7 @@ namespace CrawlAData.Services
         }
         #endregion
 
+        #region ATag
         private List<string> lstCSRPage = new List<string>() { "https://www.facebook.com/" };
 
         public BaseResponse<List<ATagDTO>> GetAllATag(int PageId)
@@ -129,7 +127,7 @@ namespace CrawlAData.Services
             }
             else
             {
-               string InnerHtml = DowLoadCSR(_Url.Link);
+                string InnerHtml = DowLoadCSR(_Url.Link);
                 lst = CrawlATag(InnerHtml);
             }
 
@@ -137,10 +135,6 @@ namespace CrawlAData.Services
             IList<ATagEntity> newtags = new List<ATagEntity>();
             foreach (var item in lst)
             {
-                if (item.TagId.Length > 20)
-                {
-
-                }
                 item.PageId = _Url.PageId;
                 var tag = _mapper.Map<ATagEntity>(item);
                 newtags.Add(tag);
@@ -151,11 +145,10 @@ namespace CrawlAData.Services
                 _Url.IsGetATag = true;
                 context.SaveChanges();
             }
-            catch (Exception ex)
+            catch
             {
 
             }
-            //
             return new BaseResponse<List<ATagDTO>>(true, lst);
         }
 
@@ -189,7 +182,6 @@ namespace CrawlAData.Services
         }
 
 
-        #region ATag
         public List<ATagDTO> CrawlATag(string InnerHtml)
         {
             var Html = new HtmlDocument();
@@ -211,15 +203,14 @@ namespace CrawlAData.Services
                     }
                 }
                 oo.XPath = item.XPath;
+                if (string.IsNullOrWhiteSpace(oo.Url) && string.IsNullOrWhiteSpace(oo.InnerText))
+                {
+                    continue;
+                }
                 lst.Add(oo);
             }
-
-
             return lst;
         }
-
-
-
         #endregion
     }
 }
