@@ -4,7 +4,7 @@ import axios from 'axios';
 import VueAxios from 'vue-axios'
 import router from './router'
 
-axios.defaults.baseURL = 'http://139.99.43.170:5000/';
+axios.defaults.baseURL = 'https://localhost:44341/';
 
 const app = createApp(App)
 app.use(VueAxios, axios)
